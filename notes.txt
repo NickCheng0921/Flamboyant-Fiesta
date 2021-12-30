@@ -1,0 +1,7 @@
+Backend uses this tutorial
+
+https://gitlab.com/menip/godot-multiplayer-tutorials/-/blob/master/GCPTutorial/GCPTut.md
+
+used this
+
+https://arks.itch.io/dino-characters

@@ -1,7 +1,7 @@
 extends Node2D
 
 const connectLocalIP = "127.0.0.1"
-const connectServerIP = "34.94.217.165"
+const connectServerIP = "35.230.9.176"
 const connectPort = 8000
 var connectedToServer = false
 onready var client = NetworkedMultiplayerENet.new()
@@ -25,7 +25,7 @@ func tryConnect():
 	if not connectedToServer:
 		client.close_connection()
 		client = NetworkedMultiplayerENet.new()
-		client.create_client(connectLocalIP, connectPort)
+		client.create_client(connectServerIP, connectPort)
 		get_tree().set_network_peer(client)
 	
 func _connected_ok():
