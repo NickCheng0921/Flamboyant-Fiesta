@@ -28,7 +28,8 @@ func tryConnect():
 	if not connectedToServer:
 		client.close_connection()
 		client = NetworkedMultiplayerENet.new()
-		client.create_client(connectServerIP, connectPort)
+		#client.create_client(connectServerIP, connectPort)
+		client.create_client(connectLocalIP, connectPort)
 		get_tree().set_network_peer(client)
 	
 func _connected_ok():
@@ -52,7 +53,9 @@ func player_ready(val):
 
 puppet func _update_player_count(ready, total):
 	$PlayerReady.clear()
-	$PlayerReady.add_text(ready,"/",total, " Ready")
+	print(ready,"/",total, " Ready")
+	var message = str(ready)+"/"+str(total)+" Ready"
+	$"./PlayerReady".text = message
 
 """
 puppet func spawn_player(spawn_pos, id):

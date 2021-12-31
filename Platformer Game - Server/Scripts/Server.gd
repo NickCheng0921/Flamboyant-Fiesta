@@ -17,7 +17,7 @@ func _player_connected(id):
 	print("    P[", id, "] connected to server")
 	rpc_id(id, "acknowledgeConnect")
 	players.push_back(id)
-	rpc_id(id, "_update_player_count", readyPlayers, players.length)
+	rpc_id(id, "_update_player_count", readyPlayers, players.size())
 	
 func _player_disconnected(id):
 	print("Client ", id, " disconnected")
@@ -33,4 +33,4 @@ remote func player_ready(id, val):
 		readyPlayers += 1
 	else:
 		readyPlayers -= 1
-	rpc_id(id, "_update_player_count", readyPlayers, players.length)
+	rpc_id(id, "_update_player_count", readyPlayers, players.size())
