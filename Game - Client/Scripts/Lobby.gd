@@ -29,7 +29,7 @@ func tryConnect():
 		client.close_connection()
 		client = NetworkedMultiplayerENet.new()
 		#client.create_client(connectServerIP, connectPort)
-		client.create_client(connectLocalIP, connectPort)
+		client.create_client(connectServerIP, connectPort)
 		get_tree().set_network_peer(client)
 	
 func _connected_ok():
@@ -42,7 +42,7 @@ func _server_disconnected():
 	print("ERROR: Server disconnected")
 
 puppet func acknowledgeConnect():
-	print("Ping")
+	#print("Ping")
 	connectedToServer = true
 	connectTimer.stop()
 	remove_child(connectTimer)
@@ -51,9 +51,8 @@ puppet func acknowledgeConnect():
 func player_ready(val):
 	rpc_id(1, "player_ready", get_tree().get_network_unique_id(), val)
 
-puppet func _update_player_count(ready, total):
+remote func _update_player_count(ready, total):
 	$PlayerReady.clear()
-	print(ready,"/",total, " Ready")
 	var message = str(ready)+"/"+str(total)+" Ready"
 	$"./PlayerReady".text = message
 

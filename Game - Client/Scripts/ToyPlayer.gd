@@ -36,9 +36,9 @@ func _physics_process(delta):
 	velocity.y += up
 
 func _on_ReadyArea_body_entered(body):
-	print("Physics body")
+	#print("Physics body")
 	$"../".player_ready(true)
 
 func _on_ReadyArea_body_exited(body):
-	print("Physics left")
+	#print("Physics left")
 	$"../".player_ready(false)
