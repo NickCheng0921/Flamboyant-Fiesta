@@ -6,6 +6,9 @@ const connectPort = 8000
 var connectedToServer = false
 onready var client = NetworkedMultiplayerENet.new()
 onready var connectTimer = Timer.new()
+
+var puppet_num_players := 1
+var puppet_ready_players := 0
 #var Player = load("res://Scenes/Player.tscn")
 
 # Called when the node enters the scene tree for the first time.
@@ -43,6 +46,13 @@ puppet func acknowledgeConnect():
 	connectTimer.stop()
 	remove_child(connectTimer)
 	rpc_id(1, "client_msg", get_tree().get_network_unique_id(), " I connected")
+
+func player_ready(val):
+	rpc_id(1, "player_ready", get_tree().get_network_unique_id(), val)
+
+puppet func _update_player_count(ready, total):
+	$PlayerReady.clear()
+	$PlayerReady.add_text(ready,"/",total, " Ready")
 
 """
 puppet func spawn_player(spawn_pos, id):

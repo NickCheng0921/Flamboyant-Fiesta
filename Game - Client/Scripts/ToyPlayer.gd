@@ -25,8 +25,8 @@ func _physics_process(delta):
 		velocity.y = -2*jumpHeight/jumpTime
 		
 	#walljump
-	if(Input.is_action_just_pressed("jump") && is_on_floor() == false && is_on_wall()):
-		velocity.y = -2*jumpHeight/jumpTime
+	#if(Input.is_action_just_pressed("jump") && is_on_floor() == false && is_on_wall()):
+	#	velocity.y = -2*jumpHeight/jumpTime
 		
 	#movement calculations
 	# -y is up, +y is down
@@ -34,3 +34,11 @@ func _physics_process(delta):
 	velocity.x = move * runSpeed
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 	velocity.y += up
+
+func _on_ReadyArea_body_entered(body):
+	print("Physics body")
+	$"../".player_ready(true)
+
+func _on_ReadyArea_body_exited(body):
+	print("Physics left")
+	$"../".player_ready(false)

@@ -2,6 +2,7 @@ extends Node2D
 
 var openPort = 8000
 var players = []
+var readyPlayers := 0
 
 func _ready():
 	print("Server up")
@@ -15,9 +16,21 @@ func _ready():
 func _player_connected(id):
 	print("    P[", id, "] connected to server")
 	rpc_id(id, "acknowledgeConnect")
+	players.push_back(id)
+	rpc_id(id, "_update_player_count", readyPlayers, players.length)
 	
 func _player_disconnected(id):
 	print("Client ", id, " disconnected")
+	players.remove(players.find(id))
 	
 remote func client_msg(id, msg):
 	print("    P[", id, "] says ", msg)
+	
+remote func player_ready(id, val):
+	#true for ready up, false for not ready
+	print("A player readied up")
+	if(val):
+		readyPlayers += 1
+	else:
+		readyPlayers -= 1
+	rpc_id(id, "_update_player_count", readyPlayers, players.length)
