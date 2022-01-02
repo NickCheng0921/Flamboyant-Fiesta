@@ -41,6 +41,7 @@ text = "Waiting for update"
 position = Vector2( 419, 286 )
 
 [node name="Walls" type="StaticBody2D" parent="."]
+editor/display_folded = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls"]
 position = Vector2( 400, 500 )
@@ -62,6 +63,7 @@ scale = Vector2( 0.6, 3 )
 texture = ExtResource( 3 )
 
 [node name="ReadyArea" type="Area2D" parent="."]
+editor/display_folded = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ReadyArea"]
 position = Vector2( 500, 450 )
