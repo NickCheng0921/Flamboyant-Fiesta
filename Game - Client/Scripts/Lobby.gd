@@ -4,6 +4,7 @@ const connectLocalIP = "127.0.0.1"
 const connectServerIP = "35.230.9.176"
 const connectPort = 8000
 var connectedToServer = false
+var Player = load("res://Scenes/Player.tscn")
 onready var client = NetworkedMultiplayerENet.new()
 onready var connectTimer = Timer.new()
 
@@ -46,7 +47,16 @@ puppet func acknowledgeConnect():
 	connectedToServer = true
 	connectTimer.stop()
 	remove_child(connectTimer)
-	rpc_id(1, "client_msg", get_tree().get_network_unique_id(), " I connected")
+	
+	#spawn a player
+	var player = Player.instance()
+	var cam = Camera2D.new()
+	player.position = Vector2(350, 350)
+	player.set_network_master(get_tree().get_network_unique_id())
+	player.add_child(cam)
+	cam.make_current()
+	
+	get_node(".").add_child(player)
 
 func player_ready(val):
 	rpc_id(1, "player_ready", get_tree().get_network_unique_id(), val)

@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/Lobby.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/ToyPlayer.tscn" type="PackedScene" id=2]
-[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://icon.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 450, 23 )
@@ -37,9 +36,6 @@ margin_right = 600.0
 margin_bottom = 450.0
 text = "Waiting for update"
 
-[node name="ToyPlayer" parent="." instance=ExtResource( 2 )]
-position = Vector2( 419, 286 )
-
 [node name="Walls" type="StaticBody2D" parent="."]
 editor/display_folded = true
 
@@ -50,7 +46,7 @@ shape = SubResource( 1 )
 [node name="Sprite" type="Sprite" parent="Walls"]
 position = Vector2( 400, 500 )
 scale = Vector2( 14, 0.7 )
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls"]
 position = Vector2( 0, 400 )
@@ -60,7 +56,7 @@ shape = SubResource( 2 )
 [node name="Sprite2" type="Sprite" parent="Walls"]
 position = Vector2( 0, 400 )
 scale = Vector2( 0.6, 3 )
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 
 [node name="ReadyArea" type="Area2D" parent="."]
 editor/display_folded = true
@@ -75,6 +71,4 @@ modulate = Color( 0.219608, 0.207843, 0.207843, 1 )
 position = Vector2( 500.238, 450 )
 scale = Vector2( 0.9, 1.5 )
 z_index = -1
-texture = ExtResource( 3 )
-[connection signal="body_entered" from="ReadyArea" to="ToyPlayer" method="_on_ReadyArea_body_entered"]
-[connection signal="body_exited" from="ReadyArea" to="ToyPlayer" method="_on_ReadyArea_body_exited"]
+texture = ExtResource( 2 )
