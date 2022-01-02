@@ -2,6 +2,7 @@ extends Node2D
 
 var openPort = 8000
 var players = []
+var playerVals = {}
 var readyPlayers := 0
 
 func _ready():
@@ -22,12 +23,15 @@ func _player_connected(id):
 func _player_disconnected(id):
 	print("Client ", id, " disconnected")
 	players.remove(players.find(id))
+	if playerVals[id]:
+		readyPlayers-=1
 	
 remote func client_msg(id, msg):
 	print("    P[", id, "] says ", msg)
 	
 remote func player_ready(id, val):
 	#true for ready up, false for not ready
+	playerVals[id] = val
 	print("A player readied up")
 	if(val):
 		readyPlayers += 1
