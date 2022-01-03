@@ -34,3 +34,8 @@ remote func player_ready(id, val):
 	else:
 		readyPlayers -= 1
 	rpc("_update_player_count", readyPlayers, players.size())
+	
+remote func createCharacter():
+	print("Player tried to make a character")
+	rpc("spawnCharacter", get_tree().get_rpc_sender_id())
+	

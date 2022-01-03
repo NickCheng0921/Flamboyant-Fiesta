@@ -29,8 +29,8 @@ func tryConnect():
 	if not connectedToServer:
 		client.close_connection()
 		client = NetworkedMultiplayerENet.new()
+		client.create_client(connectLocalIP, connectPort)
 		#client.create_client(connectServerIP, connectPort)
-		client.create_client(connectServerIP, connectPort)
 		get_tree().set_network_peer(client)
 	
 func _connected_ok():
@@ -43,18 +43,21 @@ func _server_disconnected():
 	print("ERROR: Server disconnected")
 
 puppet func acknowledgeConnect():
-	#print("Ping")
 	connectedToServer = true
 	connectTimer.stop()
 	remove_child(connectTimer)
 	
-	#spawn a player
+	#spawn our player
+	rpc_id(1, "createCharacter")
+
+puppet func spawnCharacter(id):
+	print("Spawn P[", id, "]")
 	var player = Player.instance()
 	var cam = Camera2D.new()
 	player.position = Vector2(350, 350)
-	player.set_network_master(get_tree().get_network_unique_id())
-	player.add_child(cam)
-	cam.make_current()
+	#player.set_network_master(get_tree().get_network_unique_id())
+	#player.add_child(cam)
+	#cam.make_current()
 	
 	get_node(".").add_child(player)
 

@@ -3,21 +3,20 @@ extends KinematicBody2D
 export(float) var runSpeed = 250
 
 var velocity = Vector2()
-var pos = Vector2()
+var puppet_pos = Vector2()
 export(float) var jumpHeight = 40
 export(float) var jumpTime = 0.2
-export(bool) var canIdle = true
-#canFall is the ability to play the falling animation
-export(bool) var canFall = true
 var gravity = 2*jumpHeight/(jumpTime*jumpTime)
 
 func _ready():
-	pos = get_node(".").get_position()
+	print(position)
+	puppet_pos = position
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
+	#print(position)
 	if is_network_master():
-		pos = get_node(".").get_position()
+		puppet_pos = get_node(".").get_position()
 		var move = 0.0
 		#movement
 		if(Input.is_action_pressed("ui_right")):
@@ -38,9 +37,10 @@ func _physics_process(delta):
 		velocity.y += gravity*delta
 		velocity.x = move * runSpeed
 		velocity = move_and_slide(velocity, Vector2(0, -1))
-		
+	else:
+		position = puppet_pos
 		
 #https://godotengine.org/article/multiplayer-changes-godot-4-0-report-1
 puppet func update_state(p_pos, p_vel):
-	pos = p_pos
+	puppet_pos = p_pos
 	velocity = p_vel

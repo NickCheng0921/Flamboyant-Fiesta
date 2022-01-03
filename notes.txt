@@ -5,3 +5,16 @@ https://gitlab.com/menip/godot-multiplayer-tutorials/-/blob/master/GCPTutorial/G
 used this
 
 https://arks.itch.io/dino-characters
+
+---- Flow for spawning common interactable assets (players, items, etc) ----
+
+1. Client sends call to server announcing it wants to create an item/player
+
+2. Server replicates call and sends to all other clients
+
+3. All clients acknowledge that common asset has been spawned
+
+4. Owning client sets network_master of player to itself to begin replication among all other clients
+
+- this prevents the issue of clients crashing due to receiving rpc calls for a player that has not yet been spawned
+- first check if network_master is itself by default, if so, set to null
