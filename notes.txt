@@ -18,3 +18,8 @@ https://arks.itch.io/dino-characters
 
 - this prevents the issue of clients crashing due to receiving rpc calls for a player that has not yet been spawned
 - first check if network_master is itself by default, if so, set to null
+
+
+Misc
+
+ - use print_tree_pretty() to view scene tree from current node

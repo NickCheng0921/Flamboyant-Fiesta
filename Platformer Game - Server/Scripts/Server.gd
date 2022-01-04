@@ -19,7 +19,7 @@ func _player_connected(id):
 	print("    P[", id, "] connected to server")
 	rpc_id(id, "acknowledgeConnect", players)
 	players.push_back(id)
-	#rpc("_update_player_count", readyPlayers, players.size())
+	rpc("_update_player_count", readyPlayers, players.size())
 	
 func _player_disconnected(id):
 	print("Client ", id, " disconnected")
@@ -41,6 +41,7 @@ remote func createCharacter():
 	print("Player tried to make a character")
 	var player = Player.instance()
 	player.position = Vector2(350, 350)
+	player.name = str(get_tree().get_rpc_sender_id())
 	get_node(".").add_child(player)
 	pendingSpawn[get_tree().get_rpc_sender_id()] = []
 	rpc("spawnCharacter", get_tree().get_rpc_sender_id())

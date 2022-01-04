@@ -36,10 +36,11 @@ func _physics_process(delta):
 		velocity.y += gravity*delta
 		velocity.x = move * runSpeed
 		velocity = move_and_slide(velocity, Vector2(0, -1))
+		rpc("update_state", position, velocity)
 	else:
 		position = puppet_pos
 		
 #https://godotengine.org/article/multiplayer-changes-godot-4-0-report-1
-puppet func update_state(p_pos, p_vel):
+remote func update_state(p_pos, p_vel):
 	puppet_pos = p_pos
 	velocity = p_vel

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/Lobby.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -9,6 +9,8 @@ extents = Vector2( 450, 23 )
 [sub_resource type="RectangleShape2D" id=2]
 
 [sub_resource type="RectangleShape2D" id=3]
+
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 4.09583, 4.8893 )
 
 [node name="Lobby" type="Node2D"]
@@ -37,9 +39,8 @@ margin_bottom = 450.0
 text = "Waiting for update"
 
 [node name="Walls" type="StaticBody2D" parent="."]
-editor/display_folded = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls"]
+[node name="Floor" type="CollisionShape2D" parent="Walls"]
 position = Vector2( 400, 500 )
 shape = SubResource( 1 )
 
@@ -48,7 +49,7 @@ position = Vector2( 400, 500 )
 scale = Vector2( 14, 0.7 )
 texture = ExtResource( 2 )
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls"]
+[node name="Left Wall" type="CollisionShape2D" parent="Walls"]
 position = Vector2( 0, 400 )
 scale = Vector2( 2, 10 )
 shape = SubResource( 2 )
@@ -58,13 +59,23 @@ position = Vector2( 0, 400 )
 scale = Vector2( 0.6, 3 )
 texture = ExtResource( 2 )
 
+[node name="Right Wall" type="CollisionShape2D" parent="Walls"]
+position = Vector2( 850, 400 )
+scale = Vector2( 2, 10 )
+shape = SubResource( 3 )
+
+[node name="Sprite3" type="Sprite" parent="Walls"]
+position = Vector2( 850, 400 )
+scale = Vector2( 0.6, 3 )
+texture = ExtResource( 2 )
+
 [node name="ReadyArea" type="Area2D" parent="."]
 editor/display_folded = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ReadyArea"]
 position = Vector2( 500, 450 )
 scale = Vector2( 3, 5 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="ReadyArea"]
 modulate = Color( 0.219608, 0.207843, 0.207843, 1 )

@@ -29,8 +29,8 @@ func tryConnect():
 	if not connectedToServer:
 		client.close_connection()
 		client = NetworkedMultiplayerENet.new()
-		client.create_client(connectLocalIP, connectPort)
-		#client.create_client(connectServerIP, connectPort)
+		#client.create_client(connectLocalIP, connectPort)
+		client.create_client(connectServerIP, connectPort)
 		get_tree().set_network_peer(client)
 	
 func _connected_ok():
@@ -62,17 +62,19 @@ puppet func acknowledgeConnect(listPlayers):
 remote func spawnCharacter(id):
 	print("Spawn P[", id, "]")
 	var player = Player.instance()
-	var cam = Camera2D.new()
+	player.name = str(id)
 	player.position = Vector2(350, 350)
-	#player.set_network_master(get_tree().get_network_unique_id())
-	#player.add_child(cam)
-	#cam.make_current()
 	get_node(".").add_child(player)
 	rpc_id(1, "localSpawned", id)
 
 remote func setMasterPlayer(id):
 	if id == get_tree().get_network_unique_id():
-		print("Setting master to ", id)
+		print("Set Master")
+		#print_tree_pretty()
+		get_node("./"+str(id)).set_network_master(get_tree().get_network_unique_id())
+		var cam = Camera2D.new()
+		cam.make_current()
+		get_node("./"+str(id)).add_child(cam)
 
 func player_ready(val):
 	rpc_id(1, "player_ready", get_tree().get_network_unique_id(), val)
@@ -81,22 +83,3 @@ remote func _update_player_count(ready, total):
 	$PlayerReady.clear()
 	var message = str(ready)+"/"+str(total)+" Ready"
 	$"./PlayerReady".text = message
-
-"""
-puppet func spawn_player(spawn_pos, id):
-	print("Spawning a player ", id)
-	var player = Player.instance()
-	
-	player.position = spawn_pos
-	player.name = String(id)
-	player.set_network_master(id)
-	#if this client version "owns" the player, we need to add a camera, spawn keys, and add a HUD
-	if(id == get_tree().get_network_unique_id()):
-		var camera = Camera2D.new()
-		camera.make_current()
-		camera.set_limit_smoothing_enabled(100)
-		player.add_child(camera)
-		#make keys if player controls side
-		#get_node("/root/GameIntroLevel").rpc_id(1, "spawn_keys")
-	get_node("/root/GameIntroLevel/humans").add_child(player)
-"""
