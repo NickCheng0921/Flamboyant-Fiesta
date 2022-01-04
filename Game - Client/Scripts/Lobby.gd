@@ -66,15 +66,22 @@ remote func spawnCharacter(id):
 	player.position = Vector2(350, 350)
 	get_node(".").add_child(player)
 	rpc_id(1, "localSpawned", id)
-
+	
+remote func despawnCharacter(id):
+	#remove on next possible physics frame
+	get_node("./"+str(id)).queue_free()
+	
 remote func setMasterPlayer(id):
 	if id == get_tree().get_network_unique_id():
 		print("Set Master")
 		#print_tree_pretty()
 		get_node("./"+str(id)).set_network_master(get_tree().get_network_unique_id())
+		
 		var cam = Camera2D.new()
 		cam.make_current()
 		get_node("./"+str(id)).add_child(cam)
+		
+		get_node("./"+str(id)).connect_readyArea()
 
 func player_ready(val):
 	rpc_id(1, "player_ready", get_tree().get_network_unique_id(), val)

@@ -23,7 +23,11 @@ func _player_connected(id):
 	
 func _player_disconnected(id):
 	print("Client ", id, " disconnected")
+	if(id in players):
+		rpc("despawnCharacter", id)
+		get_node("./"+str(id)).queue_free()
 	players.remove(players.find(id))
+	rpc("_update_player_count", readyPlayers, players.size())
 	
 remote func client_msg(id, msg):
 	print("    P[", id, "] says ", msg)
@@ -46,8 +50,9 @@ remote func createCharacter():
 	pendingSpawn[get_tree().get_rpc_sender_id()] = []
 	rpc("spawnCharacter", get_tree().get_rpc_sender_id())
 	
+	
 remote func localSpawned(id):
-	print("Local spawned")
+	#print("Local spawned")
 	if id in pendingSpawn:
 		pendingSpawn[id].push_back(get_tree().get_rpc_sender_id())
 		if pendingSpawn[id].size() == players.size():

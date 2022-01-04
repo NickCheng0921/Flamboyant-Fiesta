@@ -39,8 +39,24 @@ func _physics_process(delta):
 		rpc("update_state", position, velocity)
 	else:
 		position = puppet_pos
-		
+
+func connect_readyArea():
+	get_node("../ReadyArea").connect("body_entered", self, "enterReadyArea")
+	get_node("../ReadyArea").connect("body_exited",  self, "exitReadyArea")
+
 #https://godotengine.org/article/multiplayer-changes-godot-4-0-report-1
 remote func update_state(p_pos, p_vel):
 	puppet_pos = p_pos
 	velocity = p_vel
+
+func enterReadyArea(body):
+	#the network master if check is redundant, as only network masters get connected
+	#however, still check this here in case that restriction is removed in future versions
+	if is_network_master():
+		$"../".player_ready(true)
+		
+func exitReadyArea(body):
+	#the network master if check is redundant, as only network masters get connected
+	#however, still check this here in case that restriction is removed in future versions
+	if is_network_master():
+		$"../".player_ready(false)
