@@ -3,6 +3,8 @@ extends Node2D
 var openPort = 8000
 var players = []
 var readyPlayers := 0
+var pendingSpawn = {}
+var Player = load("res://Scenes/Player.tscn")
 
 func _ready():
 	print("Server up")
@@ -15,9 +17,9 @@ func _ready():
 
 func _player_connected(id):
 	print("    P[", id, "] connected to server")
-	rpc_id(id, "acknowledgeConnect")
+	rpc_id(id, "acknowledgeConnect", players)
 	players.push_back(id)
-	rpc("_update_player_count", readyPlayers, players.size())
+	#rpc("_update_player_count", readyPlayers, players.size())
 	
 func _player_disconnected(id):
 	print("Client ", id, " disconnected")
@@ -37,5 +39,16 @@ remote func player_ready(id, val):
 	
 remote func createCharacter():
 	print("Player tried to make a character")
+	var player = Player.instance()
+	player.position = Vector2(350, 350)
+	get_node(".").add_child(player)
+	pendingSpawn[get_tree().get_rpc_sender_id()] = []
 	rpc("spawnCharacter", get_tree().get_rpc_sender_id())
 	
+remote func localSpawned(id):
+	print("Local spawned")
+	if id in pendingSpawn:
+		pendingSpawn[id].push_back(get_tree().get_rpc_sender_id())
+		if pendingSpawn[id].size() == players.size():
+			pendingSpawn.erase(id)
+			rpc("setMasterPlayer", id)

@@ -42,15 +42,24 @@ func _connected_fail():
 func _server_disconnected():
 	print("ERROR: Server disconnected")
 
-puppet func acknowledgeConnect():
+puppet func acknowledgeConnect(listPlayers):
 	connectedToServer = true
 	connectTimer.stop()
 	remove_child(connectTimer)
 	
+	#spawn existing players
+	print("Existing players: ", listPlayers)
+	for p in listPlayers:
+		print("Spawn P[", p, "]")
+		var player = Player.instance()
+		player.name = str(p)
+		player.position = Vector2(350, 350)
+		get_node(".").add_child(player)
+	
 	#spawn our player
 	rpc_id(1, "createCharacter")
 
-puppet func spawnCharacter(id):
+remote func spawnCharacter(id):
 	print("Spawn P[", id, "]")
 	var player = Player.instance()
 	var cam = Camera2D.new()
@@ -58,8 +67,12 @@ puppet func spawnCharacter(id):
 	#player.set_network_master(get_tree().get_network_unique_id())
 	#player.add_child(cam)
 	#cam.make_current()
-	
 	get_node(".").add_child(player)
+	rpc_id(1, "localSpawned", id)
+
+remote func setMasterPlayer(id):
+	if id == get_tree().get_network_unique_id():
+		print("Setting master to ", id)
 
 func player_ready(val):
 	rpc_id(1, "player_ready", get_tree().get_network_unique_id(), val)
