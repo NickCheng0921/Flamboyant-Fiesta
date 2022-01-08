@@ -7,7 +7,7 @@ var pendingSpawn = {}
 var Player = load("res://Scenes/Player.tscn")
 
 func _ready():
-	print("Server up")
+	print("\n\n\nServer up")
 	get_tree().connect("network_peer_connected", self, "_player_connected")
 	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
 	var server = NetworkedMultiplayerENet.new()
@@ -34,7 +34,7 @@ remote func client_msg(id, msg):
 	
 remote func player_ready(id, val):
 	#true for ready up, false for not ready
-	print("A player readied up")
+	#print("A player readied up ", get_tree().get_rpc_sender_id())
 	if(val):
 		readyPlayers += 1
 	else:
@@ -46,6 +46,7 @@ remote func createCharacter():
 	var player = Player.instance()
 	player.position = Vector2(350, 350)
 	player.name = str(get_tree().get_rpc_sender_id())
+	player.set_network_master(0)
 	get_node(".").add_child(player)
 	pendingSpawn[get_tree().get_rpc_sender_id()] = []
 	rpc("spawnCharacter", get_tree().get_rpc_sender_id())

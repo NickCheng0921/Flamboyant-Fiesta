@@ -54,6 +54,7 @@ puppet func acknowledgeConnect(listPlayers):
 		var player = Player.instance()
 		player.name = str(p)
 		player.position = Vector2(350, 350)
+		player.get_node("label").text = str(p)
 		get_node(".").add_child(player)
 	
 	#spawn our player
@@ -64,6 +65,8 @@ remote func spawnCharacter(id):
 	var player = Player.instance()
 	player.name = str(id)
 	player.position = Vector2(350, 350)
+	player.set_network_master(0)
+	player.get_node("label").text = str(id)
 	get_node(".").add_child(player)
 	rpc_id(1, "localSpawned", id)
 	
@@ -73,9 +76,9 @@ remote func despawnCharacter(id):
 	
 remote func setMasterPlayer(id):
 	if id == get_tree().get_network_unique_id():
-		print("Set Master")
+		print("Set Master [", id, "]")
 		#print_tree_pretty()
-		get_node("./"+str(id)).set_network_master(get_tree().get_network_unique_id())
+		get_node("./"+str(id)).set_network_master(id)
 		
 		var cam = Camera2D.new()
 		cam.make_current()
@@ -84,7 +87,7 @@ remote func setMasterPlayer(id):
 		get_node("./"+str(id)).connect_readyArea()
 
 func player_ready(val):
-	rpc_id(1, "player_ready", get_tree().get_network_unique_id(), val)
+	$"../".rpc_id(1, "player_ready", get_tree().get_network_unique_id(), val)
 
 remote func _update_player_count(ready, total):
 	$PlayerReady.clear()

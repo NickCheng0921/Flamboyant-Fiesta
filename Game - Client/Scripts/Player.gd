@@ -13,7 +13,6 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	#print(position)
 	if is_network_master():
 		puppet_pos = get_node(".").get_position()
 		var move = 0.0
@@ -41,8 +40,9 @@ func _physics_process(delta):
 		position = puppet_pos
 
 func connect_readyArea():
-	get_node("../ReadyArea").connect("body_entered", self, "enterReadyArea")
-	get_node("../ReadyArea").connect("body_exited",  self, "exitReadyArea")
+	if is_network_master():
+		get_node("../ReadyArea").connect("body_entered", self, "enterReadyArea")
+		get_node("../ReadyArea").connect("body_exited",  self, "exitReadyArea")
 
 #https://godotengine.org/article/multiplayer-changes-godot-4-0-report-1
 remote func update_state(p_pos, p_vel):
@@ -50,13 +50,10 @@ remote func update_state(p_pos, p_vel):
 	velocity = p_vel
 
 func enterReadyArea(body):
-	#the network master if check is redundant, as only network masters get connected
-	#however, still check this here in case that restriction is removed in future versions
-	if is_network_master():
-		$"../".player_ready(true)
+	#signal gets propagated to all other master player nodes
+	if body.name == self.name:
+		$"../".rpc_id(1, "player_ready", get_tree().get_network_unique_id(), true)
 		
 func exitReadyArea(body):
-	#the network master if check is redundant, as only network masters get connected
-	#however, still check this here in case that restriction is removed in future versions
-	if is_network_master():
-		$"../".player_ready(false)
+	if body.name == self.name:
+		$"../".rpc_id(1, "player_ready", get_tree().get_network_unique_id(), false)
