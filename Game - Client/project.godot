@@ -41,6 +41,11 @@ jump={
  ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Players"
+2d_physics/layer_2="World"
+
 [memory]
 
 limits/message_queue/max_size_kb=2048

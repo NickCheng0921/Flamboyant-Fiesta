@@ -40,6 +40,7 @@ text = "Waiting for update"
 
 [node name="Walls" type="StaticBody2D" parent="."]
 editor/display_folded = true
+collision_layer = 2
 
 [node name="Floor" type="CollisionShape2D" parent="Walls"]
 position = Vector2( 400, 500 )
