@@ -44,7 +44,7 @@ remote func player_ready(id, val):
 remote func createCharacter():
 	print("Player tried to make a character")
 	var player = Player.instance()
-	player.position = Vector2(350, 350)
+	player.position = Vector2(0, -50)
 	player.name = str(get_tree().get_rpc_sender_id())
 	player.set_network_master(0)
 	get_node(".").add_child(player)

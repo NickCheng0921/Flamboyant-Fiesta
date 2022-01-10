@@ -4,7 +4,7 @@ export(float) var runSpeed = 250
 
 var velocity = Vector2()
 var puppet_pos = Vector2()
-export(float) var jumpHeight = 40
+export(float) var jumpHeight = 60
 export(float) var jumpTime = 0.2
 var gravity = 2*jumpHeight/(jumpTime*jumpTime)
 

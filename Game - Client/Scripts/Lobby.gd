@@ -53,7 +53,7 @@ puppet func acknowledgeConnect(listPlayers):
 		print("Spawn P[", p, "]")
 		var player = Player.instance()
 		player.name = str(p)
-		player.position = Vector2(350, 350)
+		player.position = Vector2(0, -50)
 		player.get_node("label").text = str(p)
 		get_node(".").add_child(player)
 	
@@ -64,7 +64,7 @@ remote func spawnCharacter(id):
 	print("Spawn P[", id, "]")
 	var player = Player.instance()
 	player.name = str(id)
-	player.position = Vector2(350, 350)
+	player.position = Vector2(0, -50)
 	player.set_network_master(0)
 	player.get_node("label").text = str(id)
 	get_node(".").add_child(player)
