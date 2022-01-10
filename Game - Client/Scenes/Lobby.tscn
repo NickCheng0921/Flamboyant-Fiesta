@@ -4,7 +4,7 @@
 [ext_resource path="res://Scenes/BaseLevel.tscn" type="PackedScene" id=2]
 [ext_resource path="res://icon.png" type="Texture" id=3]
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 4.09583, 4.8893 )
 
 [node name="Lobby" type="Node2D"]
@@ -42,7 +42,7 @@ collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ReadyArea"]
 scale = Vector2( 3, 5 )
-shape = SubResource( 4 )
+shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="ReadyArea"]
 modulate = Color( 0.219608, 0.207843, 0.207843, 1 )
