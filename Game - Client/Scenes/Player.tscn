@@ -5,13 +5,22 @@
 
 [sub_resource type="RectangleShape2D" id=1]
 
-[sub_resource type="SpriteFrames" id=2]
-animations = [ {
-"frames": [  ],
-"loop": true,
-"name": "default",
-"speed": 5.0
-} ]
+[sub_resource type="Animation" id=2]
+resource_name = "idle"
+length = 1.7
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2 ]
+}
 
 [node name="Player" type="KinematicBody2D"]
 collision_mask = 2
@@ -21,16 +30,18 @@ script = ExtResource( 1 )
 scale = Vector2( 2, 2 )
 shape = SubResource( 1 )
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-frames = SubResource( 2 )
-
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 hframes = 24
+frame = 1
 
 [node name="label" type="RichTextLabel" parent="."]
 margin_left = -60.0
 margin_top = -50.0
 margin_right = 64.0
 margin_bottom = -10.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_speed = 5.0
+anims/idle = SubResource( 2 )

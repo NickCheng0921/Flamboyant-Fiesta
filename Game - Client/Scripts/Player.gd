@@ -9,6 +9,7 @@ export(float) var jumpTime = 0.2
 var gravity = 2*jumpHeight/(jumpTime*jumpTime)
 
 func _ready():
+	$AnimationPlayer.play("idle")
 	puppet_pos = position
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
