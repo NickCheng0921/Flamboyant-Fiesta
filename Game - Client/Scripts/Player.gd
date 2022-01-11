@@ -34,10 +34,11 @@ func _physics_process(delta):
 		# -y is up, +y is down
 		velocity.y += gravity*delta
 		velocity.x = move * runSpeed
-		velocity = move_and_slide(velocity, Vector2(0, -1))
+		move_and_slide(velocity, Vector2(0, -1))
 		rpc("update_state", position, velocity)
 	else:
 		position = puppet_pos
+		velocity = move_and_slide(velocity, Vector2(0, -1))
 
 func connect_readyArea():
 	if is_network_master():

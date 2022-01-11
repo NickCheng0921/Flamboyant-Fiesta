@@ -18,7 +18,6 @@ func _ready():
 func _physics_process(delta):
 	curr_time -= delta
 	if curr_time < 0:
-		print(y_pos)
 		curr_time = time
 		if y_pos >= -1:
 			y_pos = -1*waterfall_height
