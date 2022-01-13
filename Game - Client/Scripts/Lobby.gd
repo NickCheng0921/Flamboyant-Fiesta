@@ -29,8 +29,8 @@ func tryConnect():
 	if not connectedToServer:
 		client.close_connection()
 		client = NetworkedMultiplayerENet.new()
-		#client.create_client(connectLocalIP, connectPort)
-		client.create_client(connectServerIP, connectPort)
+		client.create_client(connectLocalIP, connectPort)
+		#client.create_client(connectServerIP, connectPort)
 		get_tree().set_network_peer(client)
 	
 func _connected_ok():
@@ -85,9 +85,6 @@ remote func setMasterPlayer(id):
 		get_node("./"+str(id)).add_child(cam)
 		
 		get_node("./"+str(id)).connect_readyArea()
-
-func player_ready(val):
-	$"../".rpc_id(1, "player_ready", get_tree().get_network_unique_id(), val)
 
 remote func _update_player_count(ready, total):
 	$PlayerReady.clear()
