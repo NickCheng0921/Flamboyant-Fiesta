@@ -47,7 +47,14 @@ func _physics_process(delta):
 		rpc("update_state", position, velocity)
 	else:
 		position = puppet_pos
-		velocity = move_and_slide(velocity, Vector2(0, -1))
+		move_and_slide(velocity, Vector2(0, -1))
+		
+		if velocity.x < 0 and facingRight:
+			$Sprite.apply_scale(Vector2(-1, 1))
+			facingRight = false
+		elif velocity.x > 0 and not facingRight:
+			$Sprite.apply_scale(Vector2(-1, 1))
+			facingRight = true
 
 func connect_readyArea():
 	if is_network_master():
