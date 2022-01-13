@@ -4,6 +4,7 @@ export(float) var runSpeed = 250
 
 var velocity = Vector2()
 var puppet_pos = Vector2()
+var facingRight = true
 export(float) var jumpHeight = 60
 export(float) var jumpTime = 0.2
 var gravity = 2*jumpHeight/(jumpTime*jumpTime)
@@ -20,9 +21,15 @@ func _physics_process(delta):
 		#movement
 		if(Input.is_action_pressed("ui_right")):
 			move += 1
+			if not facingRight:
+				$Sprite.apply_scale(Vector2(-1, 1))
+				facingRight = true
 			
 		if(Input.is_action_pressed("ui_left")):
 			move -= 1
+			if facingRight:
+				$Sprite.apply_scale(Vector2(-1, 1))
+				facingRight = false
 			
 		if(Input.is_action_just_pressed("jump") && is_on_floor()):
 			velocity.y = -2*jumpHeight/jumpTime
@@ -33,7 +40,8 @@ func _physics_process(delta):
 			
 		#movement calculations
 		# -y is up, +y is down
-		velocity.y += gravity*delta
+		if not is_on_floor():
+			velocity.y += gravity*delta
 		velocity.x = move * runSpeed
 		move_and_slide(velocity, Vector2(0, -1))
 		rpc("update_state", position, velocity)

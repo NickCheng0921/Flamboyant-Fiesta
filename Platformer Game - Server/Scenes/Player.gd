@@ -14,6 +14,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	position = puppet_pos
+	#velocity = move_and_slide(velocity, Vector2(0, -1))
 		
 #https://godotengine.org/article/multiplayer-changes-godot-4-0-report-1
 remote func update_state(p_pos, p_vel):
