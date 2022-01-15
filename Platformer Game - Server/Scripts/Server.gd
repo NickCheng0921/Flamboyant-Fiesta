@@ -59,3 +59,6 @@ remote func localSpawned(id):
 		if pendingSpawn[id].size() == players.size():
 			pendingSpawn.erase(id)
 			rpc("setMasterPlayer", id)
+		
+remote func spawnFireball():
+	print("Spawning a fireball")

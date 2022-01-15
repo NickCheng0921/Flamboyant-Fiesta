@@ -34,6 +34,9 @@ func _physics_process(delta):
 		if(Input.is_action_just_pressed("jump") && is_on_floor()):
 			velocity.y = -2*jumpHeight/jumpTime
 			
+		if(Input.is_action_just_pressed("shoot")):
+			launch_hook()
+			
 		#walljump
 		#if(Input.is_action_just_pressed("jump") && is_on_floor() == false && is_on_wall()):
 		#	velocity.y = -2*jumpHeight/jumpTime
@@ -45,6 +48,7 @@ func _physics_process(delta):
 		velocity.x = move * runSpeed
 		move_and_slide(velocity, Vector2(0, -1))
 		rpc("update_state", position, velocity)
+	
 	else:
 		position = puppet_pos
 		move_and_slide(velocity, Vector2(0, -1))
@@ -55,7 +59,7 @@ func _physics_process(delta):
 		elif velocity.x > 0 and not facingRight:
 			$Sprite.apply_scale(Vector2(-1, 1))
 			facingRight = true
-
+	
 func connect_readyArea():
 	if is_network_master():
 		get_node("../ReadyArea").connect("body_entered", self, "enterReadyArea")
@@ -74,3 +78,6 @@ func enterReadyArea(body):
 func exitReadyArea(body):
 	if body.name == self.name:
 		$"../".rpc_id(1, "player_ready", get_tree().get_network_unique_id(), false)
+
+func launch_hook():
+	print("Haha")

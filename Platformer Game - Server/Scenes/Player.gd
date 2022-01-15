@@ -20,3 +20,6 @@ func _physics_process(delta):
 remote func update_state(p_pos, p_vel):
 	puppet_pos = p_pos
 	velocity = p_vel
+	
+remote func spawn_fireball():
+	print("P spawning a fireball")
