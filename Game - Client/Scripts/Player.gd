@@ -47,7 +47,8 @@ func _physics_process(delta):
 			velocity.y += gravity*delta
 		velocity.x = move * runSpeed
 		move_and_slide(velocity, Vector2(0, -1))
-		rpc("update_state", position, velocity)
+		#unreliable is faster and we can afford to drop some frames
+		rpc_unreliable("update_state", position, velocity)
 	
 	else:
 		position = puppet_pos
