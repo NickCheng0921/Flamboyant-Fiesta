@@ -49,6 +49,7 @@ playback_speed = 5.0
 anims/idle = SubResource( 2 )
 
 [node name="arrowSprite" type="Sprite" parent="."]
-position = Vector2( 34, 0 )
+visible = false
 scale = Vector2( 0.4, 0.4 )
 texture = ExtResource( 3 )
+offset = Vector2( 80, 0 )

@@ -8,6 +8,7 @@ var facingRight = true
 export(float) var jumpHeight = 60
 export(float) var jumpTime = 0.2
 var gravity = 2*jumpHeight/(jumpTime*jumpTime)
+var look_dir
 
 func _ready():
 	$AnimationPlayer.play("idle")
@@ -16,6 +17,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	if is_network_master():
+		var look_vec = get_global_mouse_position() - global_position
 		puppet_pos = get_node(".").get_position()
 		var move = 0.0
 		#movement
@@ -49,7 +51,10 @@ func _physics_process(delta):
 		move_and_slide(velocity, Vector2(0, -1))
 		#unreliable is faster and we can afford to drop some frames
 		rpc_unreliable("update_state", position, velocity)
-	
+		
+		look_dir = atan2(look_vec.y, look_vec.x)
+		$"./arrowSprite".global_rotation = look_dir
+		
 	else:
 		position = puppet_pos
 		move_and_slide(velocity, Vector2(0, -1))
